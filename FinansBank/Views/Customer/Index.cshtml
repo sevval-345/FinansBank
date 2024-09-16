@@ -1,0 +1,94 @@
+﻿@using FinansBank.Models.Entity
+@using PagedList
+@using PagedList.Mvc
+@model  PagedList.IPagedList<Customer>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        #customers {
+            font-family: Arial, Helvetica, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+            #customers td, #customers th {
+                border: 1px solid #ddd;
+                padding: 8px;
+            }
+
+            #customers tr:nth-child(even) {
+                background-color: #f2f2f2;
+            }
+
+            #customers tr:hover {
+                background-color: #ddd;
+            }
+
+            #customers th {
+                padding-top: 12px;
+                padding-bottom: 12px;
+                text-align: left;
+                background-color: #04AA6D;
+                color: white;
+            }
+    </style>
+</head>
+<body>
+
+    <style>
+        /* "SİL" sütununu gizleyen CSS */
+        #customers th:nth-child(7),
+        #customers td:nth-child(7) {
+            display: none;
+        }
+    </style>
+
+
+    <table id="customers">
+        <tr>
+            <th>CUSTEMERID</th>
+            <th>CUSTOMERNAME</th>
+            <th>CUSTOMERSURNAME</th>
+            <th>E-MAİL</th>
+            <th>TELEPHONE</th>
+            <th>ADRESS</th>
+            <th>SİL</th>
+            <th>GÜNCELLE</th>
+            <th>SİL</th>
+        </tr>
+        <tbody>
+            @foreach (var ctm in Model)
+            {
+                <tr>
+                    <th>@ctm.CustomerID</th>
+                    <td>@ctm.CustomerName</td>
+                    <td>@ctm.CustomerSurname</td>
+                    <td>@ctm.E_mail</td>
+                    <td>@ctm.Telephone</td>
+                    <td>@ctm.Adress</td>
+                    <td><a href="/Customer/DELETE/@ctm.CustomerID" class="btn btn-danger">SİL</a></td>
+                    <td><a href="/Customer/CustomerImport/@ctm.CustomerID" class="btn btn-success">GÜNCELLE</a></td>
+                    <td>@Html.ActionLink("SİL ", "DELETE", new { id = ctm.CustomerID }, new { @class = "btn btn-warning", onclick = "return confirm('Silmek İstediğinizden Emin misiniz?')" })</td>
+
+                </tr>
+            }
+
+        </tbody>
+    </table>
+    <br />
+    <br />
+    <a href="/Customer/NewCustomer/" class="btn  btn-primary">YENİ MÜŞTERİ EKLE </a>
+
+    @Html.PagedListPager((IPagedList)Model, page => Url.Action("Index", new { page }))
+</body>
+</html>
+
+
+
+

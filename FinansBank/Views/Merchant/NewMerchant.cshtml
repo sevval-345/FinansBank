@@ -1,0 +1,81 @@
+﻿@model FinansBank.Models.Entity.Merchant
+@{
+    ViewBag.Title = "NewMerchant";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+
+
+<form class="form-group" method="post">
+    <div>
+        <label>Müşteri Adı Seçiniz</label>
+        @Html.DropDownListFor(m => m.Customer.CustomerID, (List<SelectListItem>)ViewBag.vl, new { @class = "form-control", id = "CustomerID" })
+    </div>
+
+    <div>
+        <label>İşyeri Adı </label>
+        <input type="text" class="form-control" name="MerchantName" id="MerchantName" required="" />
+    </div>
+
+    <div>
+        <label>Adres</label>
+        <input type="text" class="form-control" name="Adress" id="Adress" />
+    </div>
+
+    <div>
+        <label>Telefon</label>
+        <input type="text" class="form-control" name="Telephone" id="Telephone" maxlength="11" />
+    </div>
+
+    <div>
+        <label>Vergi NO</label>
+        <input type="text" class="form-control" name="VergiNo" id="VergiNo" required="" />
+    </div>
+
+    <div style="margin-top:15px">
+        <button class="btn btn-info" id="btn1" type="submit">İşyeri Ekle</button>
+    </div>
+
+    <script>
+        $('#btn1').click(function (event) {
+            let errorMessage = '';
+
+            // Müşteri Adı kontrolü
+            if ($('#CustomerID').val() === '') {
+                errorMessage += 'Lütfen Müşteri Adını Seçin.\n';
+            }
+
+            // İşyeri Adı kontrolü
+            if ($('#MerchantName').val().trim() === '') {
+                errorMessage += 'Lütfen İşyeri Adını Girin.\n';
+            }
+
+            // Adres kontrolü
+            if ($('#Adress').val().trim() === '') {
+                errorMessage += 'Lütfen Adres Girin.\n';
+            }
+
+            // Telefon kontrolü
+            let telephone = $('#Telephone').val().trim();
+            if (telephone === '' || telephone.length < 10) {
+                errorMessage += 'Lütfen Geçerli Bir Telefon Numarası Girin.\n';
+            }
+
+            // Vergi No kontrolü
+            if ($('#VergiNo').val().trim() === '') {
+                errorMessage += 'Lütfen Vergi Numarasını Girin.\n';
+            }
+
+            // Eğer hata mesajı varsa formu göndermeyi durdur ve kullanıcıyı uyar
+            if (errorMessage !== '') {
+                event.preventDefault(); // Form gönderilmesini durdur
+                alert(errorMessage); // Hata mesajını göster
+            } else {
+                // Eğer tüm koşullar karşılanıyorsa başarılı mesajı göster
+                alert('İşyeri Ekleme İşlemi Yapıldı...!');
+            }
+        });
+    </script>
+</form>
+
+

@@ -1,0 +1,84 @@
+﻿@using FinansBank.Models.Entity
+@using PagedList
+@using PagedList.Mvc
+@model  PagedList.IPagedList<Terminal>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        #customers {
+            font-family: Arial, Helvetica, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+            #customers td, #customers th {
+                border: 1px solid #ddd;
+                padding: 8px;
+            }
+
+            #customers tr:nth-child(even) {
+                background-color: #f2f2f2;
+            }
+
+            #customers tr:hover {
+                background-color: #ddd;
+            }
+
+            #customers th {
+                padding-top: 12px;
+                padding-bottom: 12px;
+                text-align: left;
+                background-color: #04AA6D;
+                color: white;
+            }
+    </style>
+</head>
+<body>
+
+
+
+    <table id="customers">
+        <tr>
+            <th>TERMİNALID</th>
+            <th>MERCHANT</th>
+            <th>TERMİNALNAME</th>
+            <th>TERMİNALTYPES</th>
+            <th>SERİOUSLYNO</th>
+            <th>SİTUATİON</th>
+            <th>SİL</th>
+            <th>GÜNCELLE</th>
+
+        </tr>
+        <tbody>
+            @foreach (var trl in Model)
+            {
+                <tr>
+                    <th>@trl.TerminalID</th>
+                    <td>@trl.MerchantID</td>
+                    <td>@trl.TerminalName</td>
+                    <td>@trl.TerminalTypes</td>
+                    <td>@trl.SeriouslyNo</td>
+                    <td>@trl.Situation</td>
+                    <td><a href="/Terminal/DELETE/@trl.TerminalID" class="btn btn-danger">SİL</a></td>
+                    <td><a href="/Terminal/TerminalImport/@trl.TerminalID" class="btn btn-success">GÜNCELLE</a></td>
+                </tr>
+            }
+
+        </tbody>
+
+    </table>
+    <br />
+    <br />
+    <a href="/Terminal/NewTerminal/" class="btn  btn-primary">YENİ TERMiNAL EKLE</a>
+
+    @Html.PagedListPager((IPagedList)Model, page => Url.Action("Index", new { page }))
+</body>
+</html>
+

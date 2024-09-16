@@ -1,0 +1,85 @@
+﻿@model FinansBank.Models.Entity.Terminal
+@{
+    ViewBag.Title = "NewTerminal";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+<form class="form-group" method="post" id="terminalForm">
+
+    <div>
+        <label>İşyeri Seçiniz</label>
+        @Html.DropDownListFor(m => m.Merchant.MerchanID, (List<SelectListItem>)ViewBag.vl, new { @class = "form-control", id = "MerchantID" })
+    </div>
+
+    <div>
+        <label>Terminal Adı </label>
+        <input type="text" class="form-control" id="TerminalName" name="TerminalName" required="" />
+    </div>
+
+    <div>
+        <label>Terminal Türü</label>
+        <input type="text" class="form-control" id="TerminalTypes" name="TerminalTypes" required="" />
+    </div>
+
+    <div>
+        <label>Seri NO</label>
+        <input type="text" class="form-control" id="SeriouslyNo" name="SeriouslyNo" required="" />
+    </div>
+
+    <div>
+        <label>Durum</label>
+        <input type="text" class="form-control" id="Situation" name="Situation" />
+    </div>
+
+    <div style="margin-top:15px">
+        <button class="btn btn-info" id="btn1">Terminal Ekle</button>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $('#btn1').click(function (event) {
+            let errorMessage = '';
+
+            // Terminal Adı kontrolü
+            let terminalName = $('#TerminalName').val().trim();
+            if (terminalName === "") {
+                errorMessage += 'Lütfen Terminal Adını Girin.\n';
+            } else if (terminalName.length < 3) {
+                errorMessage += 'Terminal Adı en az 3 karakter olmalıdır.\n';
+            }
+
+            // Terminal Türü kontrolü
+            let terminalType = $('#TerminalTypes').val().trim();
+            if (terminalType === "") {
+                errorMessage += 'Lütfen Terminal Türünü Girin.\n';
+            }
+
+            // Seri No kontrolü (sadece sayılardan oluşmalı)
+            let serialNo = $('#SeriouslyNo').val().trim();
+            if (serialNo === "") {
+                errorMessage += 'Lütfen Seri Numarasını Girin.\n';
+            } else if (!/^\d+$/.test(serialNo)) {
+                errorMessage += 'Seri Numarası yalnızca sayılardan oluşmalıdır.\n';
+            }
+
+            // Durum kontrolü (isteğe bağlı)
+            let situation = $('#Situation').val().trim();
+            if (situation === "") {
+                situation = "Bilinmiyor"; // Durum boşsa varsayılan değer
+            }
+
+            // Eğer hata mesajı varsa formu göndermeyi durdur ve uyar
+            if (errorMessage !== '') {
+                event.preventDefault();
+                alert(errorMessage);
+            } else {
+                alert('Terminal Ekleme İşlemi Yapıldı...!');
+            }
+        });
+    </script>
+
+</form>
+
+
+
+

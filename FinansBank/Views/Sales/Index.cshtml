@@ -1,0 +1,97 @@
+﻿@using FinansBank.Models.Entity
+@using PagedList
+@using PagedList.Mvc
+@model  PagedList.IPagedList<Sales>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        #customers {
+            font-family: Arial, Helvetica, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+            #customers td, #customers th {
+                border: 1px solid #ddd;
+                padding: 8px;
+            }
+
+            #customers tr:nth-child(even) {
+                background-color: #f2f2f2;
+            }
+
+            #customers tr:hover {
+                background-color: #ddd;
+            }
+
+            #customers th {
+                padding-top: 12px;
+                padding-bottom: 12px;
+                text-align: left;
+                background-color: #04AA6D;
+                color: white;
+            }
+    </style>
+</head>
+<body>
+
+    <table id="customers">
+        <tr>
+            <th>SATIŞID</th>
+            <th>TERMİNALID</th>
+            <th>İŞLEM TUTARI</th>
+            <th>İŞLEM TARİH VE SAAT</th>
+            <th>PARA BİRİMİ</th>
+            <th>İŞLEM TÜRÜ</th>
+        </tr>
+        <tbody>
+            @foreach (var sl in Model)
+            {
+                <tr>
+                    <th>@sl.SaleID</th>
+                    <td>@sl.TerminalID</td>
+                    <td>@sl.SaleAmount</td>
+                    <td>@sl.SaleDate</td>
+                    <td>@sl.Curreny</td>
+                    <td>@sl.TransactionType</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    @Html.PagedListPager((IPagedList)Model, page => Url.Action("Index", new { page }))
+
+    <!-- Excel Butonu -->
+    <button id="exportButton">Excel'e Aktar</button>
+
+    <script>
+        // Excel'e aktarma fonksiyonu
+        document.getElementById('exportButton').addEventListener('click', function() {
+            let table = document.getElementById("customers");
+            let html = table.outerHTML;
+
+            // Veriyi MIME tipine uygun hale getiriyoruz
+            let url = 'data:application/vnd.ms-excel,' + encodeURIComponent(html);
+
+            // Dosya indirme işlemi
+            let link = document.createElement("a");
+            link.href = url;
+            link.download = 'table-data.xls';
+
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        });
+    </script>
+
+</body>
+</html>
+

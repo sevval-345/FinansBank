@@ -1,0 +1,86 @@
+﻿@using FinansBank.Models.Entity
+@using PagedList
+@using PagedList.Mvc
+@model PagedList.IPagedList<Merchant>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        #customers {
+            font-family: Arial, Helvetica, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+            #customers td, #customers th {
+                border: 1px solid #ddd;
+                padding: 8px;
+            }
+
+            #customers tr:nth-child(even) {
+                background-color: #f2f2f2;
+            }
+
+            #customers tr:hover {
+                background-color: #ddd;
+            }
+
+            #customers th {
+                padding-top: 12px;
+                padding-bottom: 12px;
+                text-align: left;
+                background-color: #04AA6D;
+                color: white;
+            }
+    </style>
+</head>
+<body>
+
+
+
+    <table id="customers">
+        <tr>
+            <th>MERCHANTID</th>
+            <th>CUSTOMER</th>
+            <th>MERCHANTNAME</th>
+            <th>ADRESS</th>
+            <th>TELEPHONE</th>
+            <th>VERGİNO</th>
+            <th>SİL</th>
+            <th>GÜNCELLE</th>
+
+        </tr>
+        <tbody>
+            @foreach (var mrct in Model)
+            {
+                <tr>
+                    <th>@mrct.MerchanID</th>
+                    <td>@mrct.Customer.CustomerName</td>
+                    <td>@mrct.MerchantName</td>
+                    <td>@mrct.Adress</td>
+                    <td>@mrct.Telephone</td>
+                    <td>@mrct.VergiNo</td>
+                    <td><a href="/Merchant/DELETE/@mrct.MerchanID" class="btn btn-danger">SİL</a></td>
+                    <td><a href="/Merchant/MerchantImport/@mrct.MerchanID" class="btn btn-success">GÜNCELLE</a></td>
+
+                </tr>
+            }
+
+        </tbody>
+
+    </table>
+    <br />
+    <br />
+    <a href="/Merchant/NewMerchant/" class="btn  btn-primary">YENİ İŞYERİ EKLE</a>
+
+    @Html.PagedListPager((IPagedList)Model, page => Url.Action("Index", new { page }))
+</body>
+</html>
+

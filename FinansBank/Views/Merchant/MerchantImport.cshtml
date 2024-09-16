@@ -1,0 +1,36 @@
+﻿@model FinansBank.Models.Entity.Merchant
+@{
+    ViewBag.Title = "MerchantImport";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+@using (Html.BeginForm("UPDATE", "Merchant", FormMethod.Post))
+{
+    <div class="form-group">
+
+
+        @Html.LabelFor(m => m.MerchanID)
+        @Html.TextBoxFor(m => m.MerchanID, new { @class = "form-control", @readonly = "readonly" })
+
+        @Html.LabelFor(m => m.MerchantName)
+        @Html.TextBoxFor(m => m.MerchantName, new { @class = "form-control" })
+
+
+        @Html.LabelFor(m => m.Adress)
+        @Html.TextBoxFor(m => m.Adress, new { @class = "form-control" })
+
+
+        @Html.LabelFor(m => m.Telephone)
+        @Html.TextBoxFor(m => m.Telephone, new { @class = "form-control" })
+
+
+        @Html.LabelFor(m => m.VergiNo)
+        @Html.TextBoxFor(m => m.VergiNo, new { @class = "form-control" })
+    </div>
+
+    <div>
+        <button class="btn btn-warning"> İşyeri Güncelle</button>
+    </div>
+}
+
+

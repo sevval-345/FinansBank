@@ -1,0 +1,113 @@
+﻿@model FinansBank.Models.Entity.Customer
+@{
+    ViewBag.Title = "NewCustomer";
+    Layout = "~/Views/Shared/_MainLayout.cshtml";
+}
+
+
+<form class="form-group" method="post" id="customerForm">
+
+    <div>
+        <label>Müşteri Adı</label>
+        <br />
+        @Html.TextBoxFor(m => m.CustomerName, new { @class = "form-control", id = "CustomerName" })
+        @Html.ValidationMessageFor(m => m.CustomerName, "", new { @Style = "color:red" })
+    </div>
+
+    <div>
+        <label>Müşteri Soyadı</label>
+        @Html.TextBoxFor(m => m.CustomerSurname, new { @class = "form-control", id = "CustomerSurname" })
+        @Html.ValidationMessageFor(m => m.CustomerSurname, "", new { @Style = "color:red" })
+    </div>
+
+    <div>
+        <label>E-Mail</label>
+        <input type="text" class="form-control" name="E_mail" id="Email" />
+    </div>
+
+    <div>
+        <label>Telefon</label>
+        <input type="text" class="form-control" name="Telephone" id="Telephone" maxlength="11" />
+    </div>
+
+    <div>
+        <label>Adres</label>
+        <input type="text" class="form-control" name="Adress" id="Adress" />
+    </div>
+
+    <div style="margin-top:15px">
+        <button class="btn btn-info" id="btn1" type="submit">Müşteri Ekle</button>
+    </div>
+
+    <script>
+        // Girişlerin boş olup olmadığını kontrol eden genel bir fonksiyon
+        function isFieldEmpty(fieldValue, fieldName) {
+            if (fieldValue.trim() === '') {
+                return `Lütfen ${fieldName} Girin.\n`;
+            }
+            return '';
+        }
+
+        // E-posta için geçersiz karakter kontrolü
+        function validateEmail(email) {
+            let invalidCharacters = [' ', '!', '#', '$', '%', '^', '&', '*'];
+            for (let i = 0; i < invalidCharacters.length; i++) {
+                if (email.includes(invalidCharacters[i])) {
+                    return `E-posta adresinde geçersiz karakter "${invalidCharacters[i]}" kullanılamaz.\n`;
+                }
+            }
+            return '';
+        }
+
+        // Telefon numarası kontrolü
+        function validateTelephone(telephone) {
+            if (telephone.trim() === '' || telephone.length < 10) {
+                return 'Lütfen Geçerli Bir Telefon Numarası Girin.\n';
+            }
+            return '';
+        }
+
+        // Adres kontrolü
+        function validateAdress(adress) {
+            return isFieldEmpty(adress, 'Adres Bilgisi');
+        }
+
+        // Form doğrulama işlemi
+        function validateForm() {
+            let errorMessage = '';
+
+            // Müşteri Adı kontrolü
+            errorMessage += isFieldEmpty($('#CustomerName').val(), 'Müşteri Adını');
+
+            // Müşteri Soyadı kontrolü
+            errorMessage += isFieldEmpty($('#CustomerSurname').val(), 'Müşteri Soyadını');
+
+            // E-posta kontrolü
+            let email = $('#Email').val().trim();
+            errorMessage += isFieldEmpty(email, 'E-mail Adresini');
+            errorMessage += validateEmail(email);
+
+            // Telefon kontrolü
+            errorMessage += validateTelephone($('#Telephone').val());
+
+            // Adres kontrolü
+            errorMessage += validateAdress($('#Adress').val());
+
+            return errorMessage;
+        }
+
+        // Form gönderme butonuna tıklama olayı
+        $('#btn1').click(function (event) {
+            let errorMessage = validateForm();
+
+            if (errorMessage !== '') {
+                event.preventDefault(); // Formu göndermeyi durdur
+                alert(errorMessage); // Hata mesajını göster
+            } else {
+                alert('Müşteri Ekleme İşlemi Yapıldı...!');
+            }
+        });
+    </script>
+
+</form>
+
